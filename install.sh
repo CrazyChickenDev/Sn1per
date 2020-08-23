@@ -26,54 +26,54 @@ GO_DIR=~/go/bin
 
 echo -e "$OKRED[>]$RESET This script will install sn1per under $INSTALL_DIR. Are you sure you want to continue? (Hit Ctrl+C to exit)$RESET"
 if [[ "$1" != "force" ]]; then
-	read answer
+  read answer
 fi
 
 if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root"
-   exit 1
+  echo "This script must be run as root"
+  exit 1
 fi
 
-mkdir -p "$INSTALL_DIR" 2> /dev/null
-chmod 777 -Rf "$INSTALL_DIR" 2> /dev/null
-chown root "$INSTALL_DIR"/sniper 2> /dev/null
-chmod 4777 "$INSTALL_DIR"/sniper 2> /dev/null
-mkdir -p "$LOOT_DIR" 2> /dev/null
-mkdir "$LOOT_DIR"/domains 2> /dev/null
-mkdir "$LOOT_DIR"/screenshots 2> /dev/null
-mkdir "$LOOT_DIR"/nmap 2> /dev/null
-mkdir "$LOOT_DIR"/reports 2> /dev/null
-mkdir "$LOOT_DIR"/output 2> /dev/null
-mkdir "$LOOT_DIR"/osint 2> /dev/null
-cp -Rf * "$INSTALL_DIR" 2> /dev/null
+mkdir -p "$INSTALL_DIR" 2>/dev/null
+chmod 777 -Rf "$INSTALL_DIR" 2>/dev/null
+chown root "$INSTALL_DIR"/sniper 2>/dev/null
+chmod 4777 "$INSTALL_DIR"/sniper 2>/dev/null
+mkdir -p "$LOOT_DIR" 2>/dev/null
+mkdir "$LOOT_DIR"/domains 2>/dev/null
+mkdir "$LOOT_DIR"/screenshots 2>/dev/null
+mkdir "$LOOT_DIR"/nmap 2>/dev/null
+mkdir "$LOOT_DIR"/reports 2>/dev/null
+mkdir "$LOOT_DIR"/output 2>/dev/null
+mkdir "$LOOT_DIR"/osint 2>/dev/null
+cp -Rf * "$INSTALL_DIR" 2>/dev/null
 cd "$INSTALL_DIR"
 
-sudo cp -a /root/.Xauthority /root/.Xauthority.bak 2> /dev/null
-sudo cp -a /home/"$USER"/.Xauthority /root/.Xauthority 2> /dev/null
-sudo cp -a /home/kali/.Xauthority /root/.Xauthority 2> /dev/null
-sudo chown root: /root/.Xauthority 2> /dev/null
+sudo cp -a /root/.Xauthority /root/.Xauthority.bak 2>/dev/null
+sudo cp -a /home/"$USER"/.Xauthority /root/.Xauthority 2>/dev/null
+sudo cp -a /home/kali/.Xauthority /root/.Xauthority 2>/dev/null
+sudo chown root: /root/.Xauthority 2>/dev/null
 XAUTHORITY=/root/.Xauthority
 
 # CHECK FOR UBUNTU...
-UBUNTU_CHECK=$(egrep DISTRIB_ID /etc/lsb-release 2> /dev/null)
+UBUNTU_CHECK=$(egrep DISTRIB_ID /etc/lsb-release 2>/dev/null)
 if [[ $UBUNTU_CHECK == "DISTRIB_ID=Ubuntu" ]]; then
-	cp /root/.Xauthority /root/.Xauthority.bak 2> /dev/null
-	cp -a /run/user/1000/gdm/Xauthority /root/.Xauthority 2> /dev/null
-	cp -a /home/user/.Xauthority /root/.Xauthority 2> /dev/null
-	chown root /root/.Xauthority
-	XAUTHORITY=/root/.Xauthority
+  cp /root/.Xauthority /root/.Xauthority.bak 2>/dev/null
+  cp -a /run/user/1000/gdm/Xauthority /root/.Xauthority 2>/dev/null
+  cp -a /home/user/.Xauthority /root/.Xauthority 2>/dev/null
+  chown root /root/.Xauthority
+  XAUTHORITY=/root/.Xauthority
 fi
 
 echo -e "$OKBLUE[*]$RESET Installing package dependencies...$RESET"
 apt-get update
 for i in adb aha curl cutycapt dnsrecon dos2unix golang greenbone-security-assistant host hydra jq jsbeautifier ldapscripts libssl-dev libxml2-utils nbtscan net-tools nfs-common nikto nmap nodejs openvas p7zip-full phantomjs php7.4 php7.4-curl python python-pip python3-paramiko python3-pip rpcbind ruby rubygems sqlmap sslscan wafw00f whatweb whois xdg-utils xmlstarlet xsltproc; do
-     if [ -z "$(which "$i")" ]; then
-          apt install -y "$i" 2>/dev/null
-     fi
+  if [ -z "$(which "$i")" ]; then
+    apt install -y "$i" 2>/dev/null
+  fi
 done
 
 echo -e "$OKBLUE[*]$RESET Installing Metasploit...$RESET"
-curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /tmp/msfinstall
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb >/tmp/msfinstall
 chmod 755 /tmp/msfinstall
 /tmp/msfinstall
 
@@ -82,26 +82,26 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | b
 
 echo -e "$OKBLUE[*]$RESET Installing gem dependencies...$RESET"
 echo -e "$OKBLUE[*]$RESET Installing rake...$RESET"
-gem install rake 2> /dev/null > /dev/null
+gem install rake 2>/dev/null >/dev/null
 echo -e "$OKBLUE[*]$RESET Installing ruby-nmap...$RESET"
-gem install ruby-nmap 2> /dev/null > /dev/null
+gem install ruby-nmap 2>/dev/null >/dev/null
 echo -e "$OKBLUE[*]$RESET Installing net-http-persistent...$RESET"
-gem install net-http-persistent 2> /dev/null > /dev/null
+gem install net-http-persistent 2>/dev/null >/dev/null
 echo -e "$OKBLUE[*]$RESET Installing mechanize...$RESET"
-gem install mechanize 2> /dev/null > /dev/null
+gem install mechanize 2>/dev/null >/dev/null
 echo -e "$OKBLUE[*]$RESET Installing text-table...$RESET"
-gem install text-table 2> /dev/null > /dev/null
+gem install text-table 2>/dev/null >/dev/null
 echo -e "$OKBLUE[*]$RESET Installing public_suffix...$RESET"
-gem install public_suffix 2> /dev/null > /dev/null
+gem install public_suffix 2>/dev/null >/dev/null
 
 echo -e "$OKBLUE[*]$RESET Setting up Ruby...$RESET"
 dpkg-reconfigure ruby
 
 echo -e "$OKBLUE[*]$RESET Cleaning up old extensions...$RESET"
-rm -Rf "$PLUGINS_DIR" 2> /dev/null
-mkdir "$PLUGINS_DIR" 2> /dev/null
+rm -Rf "$PLUGINS_DIR" 2>/dev/null
+mkdir "$PLUGINS_DIR" 2>/dev/null
 cd "$PLUGINS_DIR"
-mkdir -p "$GO_DIR" 2> /dev/null
+mkdir -p "$GO_DIR" 2>/dev/null
 
 echo -e "$OKBLUE[*]$RESET Downloading extensions...$RESET"
 git clone https://github.com/1N3/BruteX.git
@@ -138,7 +138,7 @@ pip3 install -r "$PLUGINS_DIR"/dnscan/requirements.txt
 cd altdns
 pip3 install -r requirements.txt
 python2 setup.py install
-pip3 install py-altdns 2> /dev/null
+pip3 install py-altdns 2>/dev/null
 cd ..
 cd massdns
 make && make install
@@ -148,24 +148,32 @@ pip3 install -r requirements.txt
 python3 setup.py install
 cd ..
 pip3 install -U webtech
-cd ~/go/bin/;go get github.com/haccer/subjack
-cd ~/go/bin/;go get -u github.com/Ice3man543/SubOver; mv SubOver /usr/local/bin/subover
-GO111MODULE=on go get -u github.com/theblackturtle/fprobe; ln -s ~/go/bin/fprobe /usr/bin/fprobe
+cd ~/go/bin/
+go get github.com/haccer/subjack
+cd ~/go/bin/
+go get -u github.com/Ice3man543/SubOver
+mv SubOver /usr/local/bin/subover
+GO111MODULE=on go get -u github.com/theblackturtle/fprobe
+ln -s ~/go/bin/fprobe /usr/bin/fprobe
 go get github.com/harleo/asnip
 ln -s ~/go/bin/asnip /usr/bin/asnip 2>/dev/null
 GO111MODULE=on go get -u -v github.com/lc/gau
-ln -s /root/go/bin/gau /usr/bin/gau2 2> /dev/null
+ln -s /root/go/bin/gau /usr/bin/gau2 2>/dev/null
 rm -Rf ~/go/src/amass*
 wget https://github.com/OWASP/Amass/releases/download/v3.5.4/amass_v3.5.4_linux_amd64.zip -O ~/go/src/amass.zip
 cd ~/go/src/
 unzip ~/go/src/amass.zip
-mv amass_v3.5.4_linux_amd64 amass 2> /dev/null
+mv amass_v3.5.4_linux_amd64 amass 2>/dev/null
 cd amass
-cp amass /usr/bin/amass -f 2> /dev/null
-rm -f ~/go/src/amass.zip 2> /dev/null
-cd ~/go/bin; wget https://github.com/projectdiscovery/subfinder/releases/download/v2.2.4/subfinder-linux-amd64.tar; tar -xvf subfinder-linux-amd64.tar; rm -f subfinder-linux-amd64.tar; mv subfinder-linux-amd64 /usr/local/bin/subfinder
+cp amass /usr/bin/amass -f 2>/dev/null
+rm -f ~/go/src/amass.zip 2>/dev/null
+cd ~/go/bin
+wget https://github.com/projectdiscovery/subfinder/releases/download/v2.2.4/subfinder-linux-amd64.tar
+tar -xvf subfinder-linux-amd64.tar
+rm -f subfinder-linux-amd64.tar
+mv subfinder-linux-amd64 /usr/local/bin/subfinder
 cd /usr/share/nmap/scripts/
-rm -Rf vulscan 2> /dev/null
+rm -Rf vulscan 2>/dev/null
 rm -f /usr/share/nmap/scripts/vulners.nse
 wget https://raw.githubusercontent.com/vulnersCom/nmap-vulners/master/vulners.nse
 mkdir -p ~/.msf4/modules/exploits/web
@@ -180,7 +188,7 @@ cd shodan-python
 python setup.py install
 cd ..
 pip3 install spyse.py
-pip3 install h8mail 2> /dev/null
+pip3 install h8mail 2>/dev/null
 cd "$PLUGINS_DIR"/CMSmap/ && pip3 install . && python3 setup.py install
 cd "$PLUGINS_DIR"
 
@@ -195,34 +203,34 @@ ln -s /usr/share/sniper/plugins/theHarvester-3.1/theHarvester.py /usr/bin/thehar
 wget https://github.com/Arachni/arachni/releases/download/v1.5.1/arachni-1.5.1-0.5.12-linux-x86_64.tar.gz -O /tmp/arachni.tar.gz
 cd /tmp/
 tar -zxf arachni.tar.gz
-rm -f /tmp/arachni.tar.gz 2> /dev/null
+rm -f /tmp/arachni.tar.gz 2>/dev/null
 cd arachni-*
-mkdir -p /usr/share/arachni 2> /dev/null
-cp -Rf * /usr/share/arachni/ 2> /dev/null
+mkdir -p /usr/share/arachni 2>/dev/null
+cp -Rf * /usr/share/arachni/ 2>/dev/null
 cd /usr/share/arachni/bin/
-for a in "$(ls)"; do ln -fs "$PWD/$a" /usr/bin/"$a"; done;
+for a in "$(ls)"; do ln -fs "$PWD/$a" /usr/bin/"$a"; done
 
 # PHANTOMJS MANUAL INSTALL
 cd /usr/local/share
-wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2 2> /dev/null
-tar xjf phantomjs-1.9.7-linux-x86_64.tar.bz2 2> /dev/null
-ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs 2> /dev/null
-ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs 2> /dev/null
-ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs 2> /dev/null
+wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2 2>/dev/null
+tar xjf phantomjs-1.9.7-linux-x86_64.tar.bz2 2>/dev/null
+ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs 2>/dev/null
+ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs 2>/dev/null
+ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs 2>/dev/null
 
 echo -e "$OKBLUE[*]$RESET Setting up environment...$RESET"
-cd "$PLUGINS_DIR"/BlackWidow/ && bash install.sh force 2> /dev/null
-cd "$PLUGINS_DIR"/BruteX/ && bash install.sh 2> /dev/null
-cd "$PLUGINS_DIR"/Findsploit/ && bash install.sh 2> /dev/null
-cd "$PLUGINS_DIR"/spoofcheck/ && pip3 install -r requirements.txt 2> /dev/null
+cd "$PLUGINS_DIR"/BlackWidow/ && bash install.sh force 2>/dev/null
+cd "$PLUGINS_DIR"/BruteX/ && bash install.sh 2>/dev/null
+cd "$PLUGINS_DIR"/Findsploit/ && bash install.sh 2>/dev/null
+cd "$PLUGINS_DIR"/spoofcheck/ && pip3 install -r requirements.txt 2>/dev/null
 
 cd "$INSTALL_DIR"
-mkdir "$LOOT_DIR" 2> /dev/null
-mkdir "$LOOT_DIR"/screenshots/ -p 2> /dev/null
-mkdir "$LOOT_DIR"/nmap -p 2> /dev/null
-mkdir "$LOOT_DIR"/domains -p 2> /dev/null
-mkdir "$LOOT_DIR"/output -p 2> /dev/null
-mkdir "$LOOT_DIR"/reports -p 2> /dev/null
+mkdir "$LOOT_DIR" 2>/dev/null
+mkdir "$LOOT_DIR"/screenshots/ -p 2>/dev/null
+mkdir "$LOOT_DIR"/nmap -p 2>/dev/null
+mkdir "$LOOT_DIR"/domains -p 2>/dev/null
+mkdir "$LOOT_DIR"/output -p 2>/dev/null
+mkdir "$LOOT_DIR"/reports -p 2>/dev/null
 chmod +x "$INSTALL_DIR"/sniper
 chmod +x "$PLUGINS_DIR"/Goohak/goohak
 rm -f /usr/bin/sniper
@@ -232,14 +240,14 @@ ln -s "$INSTALL_DIR"/sniper /usr/bin/sniper
 ln -s "$PLUGINS_DIR"/Goohak/goohak /usr/bin/goohak
 ln -s "$PLUGINS_DIR"/dirsearch/dirsearch.py /usr/bin/dirsearch
 
-msfdb init 2> /dev/null
+msfdb init 2>/dev/null
 
 echo -e "$OKBLUE[*]$RESET Adding start menu and desktop shortcuts... $RESET"
-cp -f "$INSTALL_DIR"/sn1per.desktop /usr/share/applications/ 2> /dev/null
-cp -f "$INSTALL_DIR"/sn1per.png /usr/share/pixmaps/ 2> /dev/null
-mkdir -p /usr/share/sniper/loot/workspaces/ 2> /dev/null
-ln -fs /usr/share/sniper/loot/workspaces/ /home/kali/Desktop/workspaces 2> /dev/null
-ln -fs /usr/share/sniper/loot/workspaces/ /root/Desktop/workspaces 2> /dev/null
+cp -f "$INSTALL_DIR"/sn1per.desktop /usr/share/applications/ 2>/dev/null
+cp -f "$INSTALL_DIR"/sn1per.png /usr/share/pixmaps/ 2>/dev/null
+mkdir -p /usr/share/sniper/loot/workspaces/ 2>/dev/null
+ln -fs /usr/share/sniper/loot/workspaces/ /home/kali/Desktop/workspaces 2>/dev/null
+ln -fs /usr/share/sniper/loot/workspaces/ /root/Desktop/workspaces 2>/dev/null
 
 echo -e "$OKRED[>]$RESET Done! $RESET"
 echo -e "$OKRED[>]$RESET To run, type 'sniper'! $RESET"
