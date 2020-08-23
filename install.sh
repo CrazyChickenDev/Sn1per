@@ -34,22 +34,22 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-mkdir -p $INSTALL_DIR 2> /dev/null
-chmod 777 -Rf $INSTALL_DIR 2> /dev/null
-chown root $INSTALL_DIR/sniper 2> /dev/null
-chmod 4777 $INSTALL_DIR/sniper 2> /dev/null
-mkdir -p $LOOT_DIR 2> /dev/null
-mkdir $LOOT_DIR/domains 2> /dev/null
-mkdir $LOOT_DIR/screenshots 2> /dev/null
-mkdir $LOOT_DIR/nmap 2> /dev/null
-mkdir $LOOT_DIR/reports 2> /dev/null
-mkdir $LOOT_DIR/output 2> /dev/null
-mkdir $LOOT_DIR/osint 2> /dev/null
-cp -Rf * $INSTALL_DIR 2> /dev/null
-cd $INSTALL_DIR
+mkdir -p "$INSTALL_DIR" 2> /dev/null
+chmod 777 -Rf "$INSTALL_DIR" 2> /dev/null
+chown root "$INSTALL_DIR"/sniper 2> /dev/null
+chmod 4777 "$INSTALL_DIR"/sniper 2> /dev/null
+mkdir -p "$LOOT_DIR" 2> /dev/null
+mkdir "$LOOT_DIR"/domains 2> /dev/null
+mkdir "$LOOT_DIR"/screenshots 2> /dev/null
+mkdir "$LOOT_DIR"/nmap 2> /dev/null
+mkdir "$LOOT_DIR"/reports 2> /dev/null
+mkdir "$LOOT_DIR"/output 2> /dev/null
+mkdir "$LOOT_DIR"/osint 2> /dev/null
+cp -Rf * "$INSTALL_DIR" 2> /dev/null
+cd "$INSTALL_DIR"
 
 sudo cp -a /root/.Xauthority /root/.Xauthority.bak 2> /dev/null
-sudo cp -a /home/$USER/.Xauthority /root/.Xauthority 2> /dev/null
+sudo cp -a /home/"$USER"/.Xauthority /root/.Xauthority 2> /dev/null
 sudo cp -a /home/kali/.Xauthority /root/.Xauthority 2> /dev/null
 sudo chown root: /root/.Xauthority 2> /dev/null
 XAUTHORITY=/root/.Xauthority
@@ -67,8 +67,8 @@ fi
 echo -e "$OKBLUE[*]$RESET Installing package dependencies...$RESET"
 apt-get update
 for i in adb aha curl cutycapt dnsrecon dos2unix golang greenbone-security-assistant host hydra jq jsbeautifier ldapscripts libssl-dev libxml2-utils nbtscan net-tools nfs-common nikto nmap nodejs openvas p7zip-full phantomjs php7.4 php7.4-curl python python-pip python3-paramiko python3-pip rpcbind ruby rubygems sqlmap sslscan wafw00f whatweb whois xdg-utils xmlstarlet xsltproc; do
-     if [ -z `which $i` ]; then
-          apt install -y $i 2>/dev/null
+     if [ -z "$(which "$i")" ]; then
+          apt install -y "$i" 2>/dev/null
      fi
 done
 
@@ -98,10 +98,10 @@ echo -e "$OKBLUE[*]$RESET Setting up Ruby...$RESET"
 dpkg-reconfigure ruby
 
 echo -e "$OKBLUE[*]$RESET Cleaning up old extensions...$RESET"
-rm -Rf $PLUGINS_DIR 2> /dev/null
-mkdir $PLUGINS_DIR 2> /dev/null
-cd $PLUGINS_DIR
-mkdir -p $GO_DIR 2> /dev/null
+rm -Rf "$PLUGINS_DIR" 2> /dev/null
+mkdir "$PLUGINS_DIR" 2> /dev/null
+cd "$PLUGINS_DIR"
+mkdir -p "$GO_DIR" 2> /dev/null
 
 echo -e "$OKBLUE[*]$RESET Downloading extensions...$RESET"
 git clone https://github.com/1N3/BruteX.git
@@ -132,9 +132,9 @@ git clone https://github.com/0xsauby/yasuo.git
 cd LinkFinder
 python setup.py install
 cd ..
-pip3 install -r $PLUGINS_DIR/gitGraber/requirements.txt
-pip3 install -r $PLUGINS_DIR/censys-subdomain-finder/requirements.txt
-pip3 install -r $PLUGINS_DIR/dnscan/requirements.txt
+pip3 install -r "$PLUGINS_DIR"/gitGraber/requirements.txt
+pip3 install -r "$PLUGINS_DIR"/censys-subdomain-finder/requirements.txt
+pip3 install -r "$PLUGINS_DIR"/dnscan/requirements.txt
 cd altdns
 pip3 install -r requirements.txt
 python2 setup.py install
@@ -175,14 +175,14 @@ cd /tmp/
 7z e gobuster.7z
 chmod +rx gobuster
 mv gobuster /usr/bin/gobuster
-cd $PLUGINS_DIR
+cd "$PLUGINS_DIR"
 cd shodan-python
 python setup.py install
 cd ..
 pip3 install spyse.py
 pip3 install h8mail 2> /dev/null
-cd $PLUGINS_DIR/CMSmap/ && pip3 install . && python3 setup.py install
-cd $PLUGINS_DIR
+cd "$PLUGINS_DIR"/CMSmap/ && pip3 install . && python3 setup.py install
+cd "$PLUGINS_DIR"
 
 # THEHARVESTER MANUAL INSTALL
 wget https://github.com/laramies/theHarvester/archive/V3.1.tar.gz
@@ -200,7 +200,7 @@ cd arachni-*
 mkdir -p /usr/share/arachni 2> /dev/null
 cp -Rf * /usr/share/arachni/ 2> /dev/null
 cd /usr/share/arachni/bin/
-for a in `ls`; do ln -fs $PWD/$a /usr/bin/$a; done;
+for a in "$(ls)"; do ln -fs "$PWD/$a" /usr/bin/"$a"; done;
 
 # PHANTOMJS MANUAL INSTALL
 cd /usr/local/share
@@ -211,32 +211,32 @@ ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/bin
 ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs 2> /dev/null
 
 echo -e "$OKBLUE[*]$RESET Setting up environment...$RESET"
-cd $PLUGINS_DIR/BlackWidow/ && bash install.sh force 2> /dev/null
-cd $PLUGINS_DIR/BruteX/ && bash install.sh 2> /dev/null
-cd $PLUGINS_DIR/Findsploit/ && bash install.sh 2> /dev/null
-cd $PLUGINS_DIR/spoofcheck/ && pip3 install -r requirements.txt 2> /dev/null
+cd "$PLUGINS_DIR"/BlackWidow/ && bash install.sh force 2> /dev/null
+cd "$PLUGINS_DIR"/BruteX/ && bash install.sh 2> /dev/null
+cd "$PLUGINS_DIR"/Findsploit/ && bash install.sh 2> /dev/null
+cd "$PLUGINS_DIR"/spoofcheck/ && pip3 install -r requirements.txt 2> /dev/null
 
-cd $INSTALL_DIR
-mkdir $LOOT_DIR 2> /dev/null
-mkdir $LOOT_DIR/screenshots/ -p 2> /dev/null
-mkdir $LOOT_DIR/nmap -p 2> /dev/null
-mkdir $LOOT_DIR/domains -p 2> /dev/null
-mkdir $LOOT_DIR/output -p 2> /dev/null
-mkdir $LOOT_DIR/reports -p 2> /dev/null
-chmod +x $INSTALL_DIR/sniper
-chmod +x $PLUGINS_DIR/Goohak/goohak
+cd "$INSTALL_DIR"
+mkdir "$LOOT_DIR" 2> /dev/null
+mkdir "$LOOT_DIR"/screenshots/ -p 2> /dev/null
+mkdir "$LOOT_DIR"/nmap -p 2> /dev/null
+mkdir "$LOOT_DIR"/domains -p 2> /dev/null
+mkdir "$LOOT_DIR"/output -p 2> /dev/null
+mkdir "$LOOT_DIR"/reports -p 2> /dev/null
+chmod +x "$INSTALL_DIR"/sniper
+chmod +x "$PLUGINS_DIR"/Goohak/goohak
 rm -f /usr/bin/sniper
 rm -f /usr/bin/goohak
 rm -f /usr/bin/dirsearch
-ln -s $INSTALL_DIR/sniper /usr/bin/sniper
-ln -s $PLUGINS_DIR/Goohak/goohak /usr/bin/goohak
-ln -s $PLUGINS_DIR/dirsearch/dirsearch.py /usr/bin/dirsearch
+ln -s "$INSTALL_DIR"/sniper /usr/bin/sniper
+ln -s "$PLUGINS_DIR"/Goohak/goohak /usr/bin/goohak
+ln -s "$PLUGINS_DIR"/dirsearch/dirsearch.py /usr/bin/dirsearch
 
 msfdb init 2> /dev/null
 
 echo -e "$OKBLUE[*]$RESET Adding start menu and desktop shortcuts... $RESET"
-cp -f $INSTALL_DIR/sn1per.desktop /usr/share/applications/ 2> /dev/null
-cp -f $INSTALL_DIR/sn1per.png /usr/share/pixmaps/ 2> /dev/null
+cp -f "$INSTALL_DIR"/sn1per.desktop /usr/share/applications/ 2> /dev/null
+cp -f "$INSTALL_DIR"/sn1per.png /usr/share/pixmaps/ 2> /dev/null
 mkdir -p /usr/share/sniper/loot/workspaces/ 2> /dev/null
 ln -fs /usr/share/sniper/loot/workspaces/ /home/kali/Desktop/workspaces 2> /dev/null
 ln -fs /usr/share/sniper/loot/workspaces/ /root/Desktop/workspaces 2> /dev/null
